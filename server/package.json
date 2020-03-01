@@ -3,17 +3,20 @@
     "version": "0.1.0",
     "scripts": {
         "start": "nodemon src/index.ts",
+        "seed": "ts-node temp/seed.ts",
         "build": "tsc -p ./"
     },
     "dependencies": {
         "apollo-server-express": "^2.10.1",
         "express": "^4.17.1",
         "graphql": "^14.6.0",
+        "lodash.merge": "^4.6.2",
         "mongodb": "^3.5.4"
     },
     "devDependencies": {
         "@types/dotenv": "^8.2.0",
         "@types/express": "^4.17.2",
+        "@types/lodash.merge": "^4.6.6",
         "@types/mongodb": "^3.3.16",
         "@types/node": "^13.7.7",
         "@typescript-eslint/eslint-plugin": "^2.21.0",
