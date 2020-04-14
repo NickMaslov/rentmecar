@@ -8,7 +8,6 @@ interface Props {
 }
 
 export const ListingsSkeleton = ({ title, error = false }: Props) => {
-
   const errorAlert = error ? (
     <Alert
       type="error"
@@ -18,7 +17,10 @@ export const ListingsSkeleton = ({ title, error = false }: Props) => {
   ) : null;
 
   return (
+
     <div className="listings-skeleton">
+
+      <h2>{errorAlert}</h2>
       <h2>{title}</h2>
       <Skeleton active paragraph={{ rows: 1 }} />
       <Divider />

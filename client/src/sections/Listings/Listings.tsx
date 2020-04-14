@@ -1,7 +1,7 @@
 import React from "react";
 import { gql } from "apollo-boost";
 import { useQuery, useMutation } from "@apollo/react-hooks";
-import {Alert, Avatar, Button, List, Spin } from "antd";
+import { Alert, Avatar, Button, List, Spin } from "antd";
 import { Listings as ListingsData } from "./__generated__/Listings";
 import {
   DeleteListing as DeleteListingData,
@@ -9,7 +9,6 @@ import {
 } from "./__generated__/DeleteListing";
 import { ListingsSkeleton } from "./components";
 import "./styles/Listings.css";
-
 
 const LISTINGS = gql`
   query Listings {
@@ -95,7 +94,6 @@ export const Listings = ({ title }: Props) => {
     );
   }
 
-
   const deleteListingErrorAlert = deleteListingError ? (
     <Alert
       type="error"
@@ -107,7 +105,7 @@ export const Listings = ({ title }: Props) => {
   return (
     <div className="listings">
       {deleteListingErrorAlert}
-      <Spin spinning={deleteListingLoading}>
+      <Spin tip="Loading..." spinning={deleteListingLoading}>
         <h2>{title}</h2>
         {listingsList}
       </Spin>
