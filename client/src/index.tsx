@@ -1,30 +1,52 @@
-import React from "react";
+import React, {useState} from "react";
 import ReactDOM from "react-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./styles/index.css";
+import { Layout } from "antd";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "@apollo/react-hooks";
 import * as serviceWorker from "./serviceWorker";
-import { Home, Host, Listing, Listings, NotFound, User } from "./sections";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  Home,
+  Host,
+  Listing,
+  Listings,
+  NotFound,
+  User,
+  Login,
+} from "./sections";
+import { Viewer } from "./lib/types";
+
+const initialViewer: Viewer = {
+  id: null,
+  token: null,
+  avatar: null,
+  hasWallet: null,
+  didRequest: false,
+};
+
+const App = () => {
+  const [viewer, setViewer] = useState<Viewer>(initialViewer);
+  return (
+    <Router>
+      <Layout id="app">
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/login" render={props => <Login {...props} setViewer={setViewer} />} />
+          <Route exact path="/host" component={Host} />
+          <Route exact path="/listing/:id" component={Listing} />
+          <Route exact path="/listings/:location?" component={Listings} />
+          <Route exact path="/user/:id" component={User} />
+          <Route component={NotFound} />
+        </Switch>
+      </Layout>
+    </Router>
+  );
+};
 
 const client = new ApolloClient({
   uri: "/api",
 });
-
-const App = () => {
-  return (
-    <Router>
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/host" component={Host} />
-        <Route exact path="/listing/:id" component={Listing} />
-        <Route exact path="/listings/:location?" component={Listings} />
-        <Route exact path="/user/:id" component={User} />
-        <Route component={NotFound} />
-      </Switch>
-    </Router>
-  );
-};
 
 ReactDOM.render(
   <ApolloProvider client={client}>
