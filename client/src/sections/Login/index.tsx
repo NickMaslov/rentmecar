@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { Redirect } from "react-router-dom";
 import { useApolloClient, useMutation } from "@apollo/react-hooks";
+import { Card, Layout, Typography, Spin } from "antd";
 import { AUTH_URL } from "../../lib/graphql/queries";
 import { AuthUrl as AuthUrlData } from "../../lib/graphql/queries/AuthUrl/__generated__/AuthUrl";
 import { LOG_IN } from "../../lib/graphql/mutations";
@@ -8,14 +9,12 @@ import {
   LogIn as LogInData,
   LogInVariables,
 } from "../../lib/graphql/mutations/LogIn/__generated__/LogIn";
-import { Card, Layout, Typography, Spin } from "antd";
 import { Viewer } from "../../lib/types";
 import { ErrorBanner } from "../../lib/components";
 import {
   displaySuccessNotification,
   displayErrorMessage,
 } from "../../lib/utils";
-
 import googleLogo from "./assets/google_logo.jpg";
 
 const { Content } = Layout;
