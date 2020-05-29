@@ -17,10 +17,6 @@ export const Google = {
   logIn: async (code: string) => {
     const { tokens } = await auth.getToken(code);
 
-    //
-    console.log(tokens);
-    //
-
     auth.setCredentials(tokens);
 
     const { data } = await google.people({ version: "v1", auth }).people.get({
