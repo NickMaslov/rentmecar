@@ -1,5 +1,5 @@
 import { Request } from "express";
-import { Database } from "../types";
+import { Database, User } from "../types";
 
 export const authorize = async (
   db: Database,
