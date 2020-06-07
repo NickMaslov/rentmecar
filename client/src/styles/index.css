@@ -465,6 +465,7 @@
 }
 .listings {
   padding: 60px 120px;
+  max-width: 100%;
 }
 @media (max-width: 75em) {
   .listings {

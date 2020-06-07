@@ -8,10 +8,10 @@ export interface Booking {
   checkOut: string;
 }
 
-// export enum ListingType {
-//   Apartment = "APARTMENT",
-//   House = "HOUSE",
-// }
+export enum ListingType {
+  Apartment = "APARTMENT",
+  House = "HOUSE",
+}
 
 interface BookingsIndexMonth {
   [key: string]: boolean;

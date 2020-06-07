@@ -103,7 +103,9 @@ export const Listings = ({ title }: Props) => {
   ) : null;
 
   return (
-    <div className="listings">
+    <div 
+    className="listings"
+    >
       {deleteListingErrorAlert}
       <Spin tip="Loading..." spinning={deleteListingLoading}>
         <h2>{title}</h2>
