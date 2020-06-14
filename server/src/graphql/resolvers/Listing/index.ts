@@ -46,7 +46,7 @@ export const listingResolvers: IResolvers = {
           result: [],
         };
 
-        let cursor = await db.listings.find({});
+        let cursor =  db.listings.find({});
 
         if (filter && filter === ListingsFilter.PRICE_LOW_TO_HIGH) {
           cursor = cursor.sort({ price: 1 });
@@ -59,6 +59,7 @@ export const listingResolvers: IResolvers = {
         cursor = cursor.skip(page > 0 ? (page - 1) * limit : 0);
         cursor = cursor.limit(limit);
 
+        // console.log(await cursor.count())
         data.total = await cursor.count();
         data.result = await cursor.toArray();
 

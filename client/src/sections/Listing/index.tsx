@@ -78,6 +78,8 @@ const PAGE_LIMIT = 3;
 
 export const Listing = ({ match }: RouteComponentProps<MatchParams>) => {
   const [bookingsPage, setBookingsPage] = useState(1);
+  const [checkInDate, setCheckInDate] = useState<Moment | null>(null);
+  const [checkOutDate, setCheckOutDate] = useState<Moment | null>(null);
 
   const { loading, data, error } = useQuery<ListingData, ListingVariables>(
     LISTING,
@@ -90,8 +92,7 @@ export const Listing = ({ match }: RouteComponentProps<MatchParams>) => {
     }
   );
 
-  const [checkInDate, setCheckInDate] = useState<Moment | null>(null);
-  const [checkOutDate, setCheckOutDate] = useState<Moment | null>(null);
+
 
   if (loading) {
     return (
@@ -111,7 +112,7 @@ export const Listing = ({ match }: RouteComponentProps<MatchParams>) => {
   }
 
   const listing = data ? data.listing : null;
-  // const listingBookings = listing ? listing.bookings : null;
+  const listingBookings = listing ? listing.bookings : null;
 
   const listingDetailsElement = listing ? (
     <ListingDetails listing={listing} />
