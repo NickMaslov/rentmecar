@@ -8,9 +8,11 @@ import {
   ListingBookingsData,
   ListingsArgs,
   ListingsData,
-  ListingsFilter
+  ListingsFilter,
+  ListingsQuery,
 } from "./types";
 import { authorize } from "../../../lib/utils";
+import { Google } from "../../../lib/api";
 
 export const listingResolvers: IResolvers = {
   Query: {
@@ -37,16 +39,35 @@ export const listingResolvers: IResolvers = {
     },
     listings: async (
       _root: undefined,
-      { filter, limit, page }: ListingsArgs,
+      { location, filter, limit, page }: ListingsArgs,
       { db }: { db: Database }
     ): Promise<ListingsData> => {
       try {
         const data: ListingsData = {
+          region: null,
           total: 0,
           result: [],
         };
 
-        let cursor =  db.listings.find({});
+        const query: ListingsQuery = {};
+
+        if (location) {
+          const { country, admin, city } = await Google.geocode(location);
+
+          if (city) query.city = city;
+          if (admin) query.admin = admin;
+          if (country) {
+            query.country = country;
+          } else {
+            throw new Error("no country found");
+          }
+
+          const cityText = city ? `${city}, ` : "";
+          const adminText = admin ? `${admin}, ` : "";
+          data.region = `${cityText}${adminText}${country}`;
+        }
+
+        let cursor = await db.listings.find(query);
 
         if (filter && filter === ListingsFilter.PRICE_LOW_TO_HIGH) {
           cursor = cursor.sort({ price: 1 });
@@ -59,7 +80,6 @@ export const listingResolvers: IResolvers = {
         cursor = cursor.skip(page > 0 ? (page - 1) * limit : 0);
         cursor = cursor.limit(limit);
 
-        // console.log(await cursor.count())
         data.total = await cursor.count();
         data.result = await cursor.toArray();
 
