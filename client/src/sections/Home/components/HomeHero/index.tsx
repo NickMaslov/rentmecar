@@ -38,19 +38,19 @@ export const HomeHero = ({ onSearch }: Props) => {
           </Link>
         </Col>
         <Col xs={12} md={6}>
-          <Link to="/listings/toronto">
+          <Link to="/listings/dubai">
             <Card cover={<img alt="Dubai" src={dubaiImage} />}>Dubai</Card>
           </Link>
         </Col>
         <Col xs={0} md={6}>
-          <Link to="/listings/toronto">
+          <Link to="/listings/los angeles">
             <Card cover={<img alt="Los Angeles" src={losAngelesImage} />}>
               Los Angeles
             </Card>
           </Link>
         </Col>
         <Col xs={0} md={6}>
-          <Link to="/listings/toronto">
+          <Link to="/listings/london">
             <Card cover={<img alt="London" src={londonImage} />}>London</Card>
           </Link>
         </Col>
