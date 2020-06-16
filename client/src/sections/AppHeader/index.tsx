@@ -21,7 +21,7 @@ export const AppHeader = withRouter(
     useEffect(() => {
       const { pathname } = location;
       const pathnameSubStrings = pathname.split("/");
-
+      
       if (!pathname.includes("/listings")) {
         setSearch("");
         return;
