@@ -20,7 +20,7 @@ export const ListingCreateBooking = ({
   setCheckInDate,
   setCheckOutDate,
 }: Props) => {
-  const disabledDate = (currentDate?: Moment) => {
+  const disabledDate = (currentDate?: Moment | null) => {
     if (currentDate) {
       const dateIsBeforeEndOfDay = currentDate.isBefore(moment().endOf("day"));
 
