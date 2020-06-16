@@ -83,7 +83,7 @@ export const UserProfile = ({
   ) : (
     <Fragment>
       <Paragraph>
-        Interested in becoming a TinyHouse host? Register with your Stripe
+        Interested in becoming a RentMeCar host? Register with your Stripe
         account!
       </Paragraph>
       <Button
@@ -94,7 +94,7 @@ export const UserProfile = ({
         Connect with Stripe
       </Button>
       <Paragraph type="secondary">
-        TinyHouse uses{" "}
+        RentMeCar uses{" "}
         <a
           href="https://stripe.com/en-US/connect"
           target="_blank"
