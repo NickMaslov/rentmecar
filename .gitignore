@@ -1,2 +1,4 @@
+
+# environment variables
 client/.env
 server/.env

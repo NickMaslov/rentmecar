@@ -13,6 +13,7 @@ import {
   Login,
   NotFound,
   User,
+  Stripe
 } from "./sections";
 import { AppHeaderSkeleton, ErrorBanner } from "./lib/components";
 import { LOG_IN } from "./lib/graphql/mutations";
@@ -100,7 +101,12 @@ const App = () => {
           <Route
             exact
             path="/user/:id"
-            render={props => <User {...props} viewer={viewer} />}
+            render={(props) => <User {...props} viewer={viewer} setViewer={setViewer} />}
+          />
+          <Route
+            exact
+            path="/stripe"
+            render={props => <Stripe {...props} viewer={viewer} setViewer={setViewer} />}
           />
           <Route component={NotFound} />
         </Switch>
