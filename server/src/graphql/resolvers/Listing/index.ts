@@ -14,7 +14,7 @@ import {
   HostListingInput,
 } from "./types";
 import { authorize } from "../../../lib/utils";
-import { Google } from "../../../lib/api";
+import { Google, Cloudinary } from "../../../lib/api";
 
 const verifyHostListingInput = ({
   title,
@@ -43,37 +43,44 @@ export const listingResolvers: IResolvers = {
       { input }: HostListingArgs,
       { db, req }: { db: Database; req: Request }
     ): Promise<Listing> => {
-      verifyHostListingInput(input);
+      try {
+        verifyHostListingInput(input);
 
-      let viewer = await authorize(db, req);
-      if (!viewer) {
-        throw new Error("viewer cannot be found");
+        let viewer = await authorize(db, req);
+        if (!viewer) {
+          throw new Error("viewer cannot be found");
+        }
+
+        const { country, admin, city } = await Google.geocode(input.address);
+        if (!country || !admin || !city) {
+          throw new Error("invalid address input");
+        }
+
+        // const imageUrl = await Cloudinary.upload(input.image);
+
+        const insertResult = await db.listings.insertOne({
+          _id: new ObjectId(),
+          ...input,
+          // image: imageUrl,
+          bookings: [],
+          bookingsIndex: {},
+          country,
+          admin,
+          city,
+          host: viewer._id,
+        });
+
+        const insertedListing: Listing = insertResult.ops[0];
+
+        await db.users.updateOne(
+          { _id: viewer._id },
+          { $push: { listings: insertedListing._id } }
+        );
+
+        return insertedListing;
+      } catch (error) {
+        throw new Error(`Failed to host listing: ${error}`);
       }
-
-      const { country, admin, city } = await Google.geocode(input.address);
-      if (!country || !admin || !city) {
-        throw new Error("invalid address input");
-      }
-
-      const insertResult = await db.listings.insertOne({
-        _id: new ObjectId(),
-        ...input,
-        bookings: [],
-        bookingsIndex: {},
-        country,
-        admin,
-        city,
-        host: viewer._id,
-      });
-
-      const insertedListing: Listing = insertResult.ops[0];
-
-      await db.users.updateOne(
-        { _id: viewer._id },
-        { $push: { listings: insertedListing._id } }
-      );
-
-      return insertedListing;
     },
   },
   Query: {

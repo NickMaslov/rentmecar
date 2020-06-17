@@ -96,7 +96,6 @@ export const Host = ({ viewer, form }: Props & FormComponentProps) => {
       setImageLoading(true);
       return;
     }
-
     if (file.status === "done" && file.originFileObj) {
       getBase64Value(file.originFileObj, (imageBase64Value) => {
         setImageBase64Value(imageBase64Value);
@@ -126,11 +125,14 @@ export const Host = ({ viewer, form }: Props & FormComponentProps) => {
       delete input.state;
       delete input.postalCode;
 
+      console.log(input)
+
       hostListing({
         variables: {
           input,
         },
       });
+      setImageBase64Value(null)
     });
   };
 
