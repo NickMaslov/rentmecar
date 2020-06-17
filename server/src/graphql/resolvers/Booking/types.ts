@@ -8,3 +8,4 @@ export interface CreateBookingInput {
   export interface CreateBookingArgs {
     input: CreateBookingInput;
   }
+  
