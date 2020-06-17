@@ -33,12 +33,6 @@ export const ListingCreateBooking = ({
 }: Props) => {
   const bookingsIndexJSON: BookingsIndex = JSON.parse(bookingsIndex);
 
-  bookingsIndexJSON["2020"] = {};
-  bookingsIndexJSON["2020"]["06"] = {};
-  bookingsIndexJSON["2020"]["06"]["24"] = true;
-  bookingsIndexJSON["2020"]["06"]["25"] = true;
-  console.log(bookingsIndexJSON);
-
   const dateIsBooked = (currentDate: Moment) => {
     const year = moment(currentDate).year();
     const month = moment(currentDate).month();

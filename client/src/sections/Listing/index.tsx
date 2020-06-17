@@ -13,7 +13,7 @@ import {
   ListingBookings,
   ListingDetails,
   ListingCreateBooking,
-  ListingCreateBookingModal
+  WrappedListingCreateBookingModal as ListingCreateBookingModal,
 } from "./components";
 import { Viewer } from "../../lib/types";
 
@@ -37,7 +37,7 @@ export const Listing = ({
   const [checkOutDate, setCheckOutDate] = useState<Moment | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
 
-  const { loading, data, error } = useQuery<ListingData, ListingVariables>(
+  const { loading, data, error, refetch } = useQuery<ListingData, ListingVariables>(
     LISTING,
     {
       variables: {
@@ -81,28 +81,44 @@ export const Listing = ({
     />
   ) : null;
 
-  const listingCreateBookingElement = listing ? (
-    <ListingCreateBooking
-      viewer={viewer}
-      host={listing.host}
-      price={listing.price}
-      bookingsIndex={listing.bookingsIndex}
-      checkInDate={checkInDate}
-      checkOutDate={checkOutDate}
-      setCheckInDate={setCheckInDate}
-      setCheckOutDate={setCheckOutDate}
-      setModalVisible={setModalVisible}
-    />
-  ) : null;
+  const listingCreateBookingElement =
+    listing 
+    ? 
+    (
+      <ListingCreateBooking
+        viewer={viewer}
+        host={listing.host}
+        price={listing.price}
+        bookingsIndex={listing.bookingsIndex}
+        checkInDate={checkInDate}
+        checkOutDate={checkOutDate}
+        setCheckInDate={setCheckInDate}
+        setCheckOutDate={setCheckOutDate}
+        setModalVisible={setModalVisible}
+      />
+    ) : null;
+
+  const clearBookingData = () => {
+    setModalVisible(false);
+    setCheckInDate(null);
+    setCheckOutDate(null);
+  };
+
+  const handleListingRefetch = async () => {
+    await refetch();
+  };
 
   const listingCreateBookingModalElement =
     listing && checkInDate && checkOutDate ? (
       <ListingCreateBookingModal
-        price={listing.price}
-        modalVisible={modalVisible}
-        checkInDate={checkInDate}
-        checkOutDate={checkOutDate}
-        setModalVisible={setModalVisible}
+      id={listing.id}
+      price={listing.price}
+      modalVisible={modalVisible}
+      checkInDate={checkInDate}
+      checkOutDate={checkOutDate}
+      setModalVisible={setModalVisible}
+      clearBookingData={clearBookingData}
+      handleListingRefetch={handleListingRefetch}
       />
     ) : null;
 
